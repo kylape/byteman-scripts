@@ -1,3 +1,7 @@
+# Use this script to figure out if an application is mixing up servlet request
+# objects.  This script tracks the use of JBossWeb/Tomcat objects between requests
+# since Tomcat heavily reuses its request objects.
+
 RULE HTTP11 input buffer received new socket input stream
 CLASS org.apache.coyote.http11.InternalInputBuffer
 METHOD setInputStream
