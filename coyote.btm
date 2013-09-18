@@ -1,0 +1,69 @@
+RULE HTTP11 input buffer received new socket input stream
+CLASS org.apache.coyote.http11.InternalInputBuffer
+METHOD setInputStream
+IF true
+DO System.out.println("Received new socket input stream " + Integer.toHexString($1.hashCode()) + " for HTTP11 input buffer " + Integer.toHexString($0.hashCode()) + " on thread " + Thread.currentThread().getName())
+ENDRULE
+
+RULE HTTP11 input buffer preparing for next request
+CLASS org.apache.coyote.http11.InternalInputBuffer
+METHOD nextRequest
+IF true
+DO System.out.println("Preparing for next request for HTTP11 input buffer " + Integer.toHexString($0.hashCode()))
+ENDRULE
+
+RULE Creation of new protocol input buffer
+CLASS org.apache.coyote.http11.InternalInputBuffer
+METHOD <init>
+IF true
+DO System.out.println("Creating new HTTP11 input buffer " + Integer.toHexString($0.hashCode()) + " for request " + Integer.toHexString($1.hashCode()))
+ENDRULE
+
+RULE CoyoteRequest recycle
+CLASS org.apache.coyote.Request
+METHOD recycle
+IF true
+DO System.out.println("Recycle called on Coyote Request " + Integer.toHexString($0.hashCode()))
+ENDRULE
+
+RULE InputBuffer setRequest
+CLASS org.apache.catalina.connector.InputBuffer
+METHOD setRequest
+IF true
+DO System.out.println("InputBuffer " + Integer.toHexString($0.hashCode()) + " is assigned to request " + Integer.toHexString($1.hashCode()))
+ENDRULE
+
+RULE InputBuffer recycle
+CLASS org.apache.catalina.connector.InputBuffer
+METHOD recycle
+IF true
+DO System.out.println("Recycle called on InputBuffer " + Integer.toHexString($0.hashCode()))
+ENDRULE
+
+RULE InputBuffer close
+CLASS org.apache.catalina.connector.InputBuffer
+METHOD close
+IF true
+DO System.out.println("Close called on InputBuffer " + Integer.toHexString($0.hashCode()))
+ENDRULE
+
+RULE InputBuffer reset
+CLASS org.apache.catalina.connector.InputBuffer
+METHOD reset
+IF true
+DO System.out.println("Reset called on InputBuffer " + Integer.toHexString($0.hashCode()))
+ENDRULE
+
+RULE What InputBuffer does my ServletInputStream contain?
+CLASS org.apache.catalina.connector.CoyoteInputStream
+METHOD <init>
+IF true
+DO System.out.println("Creating new CoyoteInputStream " + Integer.toHexString($0.hashCode()) + " with InputBuffer " + Integer.toHexString($1.hashCode()))
+ENDRULE
+
+RULE http processor
+CLASS org.apache.coyote.http11.Http11Processor
+METHOD process
+IF true
+DO System.out.println("Calling http processor");
+ENDRULE
