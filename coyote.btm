@@ -13,7 +13,8 @@ RULE HTTP11 input buffer preparing for next request
 CLASS org.apache.coyote.http11.InternalInputBuffer
 METHOD nextRequest
 IF true
-DO System.out.println("Preparing for next request for HTTP11 input buffer " + Integer.toHexString($0.hashCode()))
+DO System.out.println("Preparing for next request for HTTP11 input buffer " + Integer.toHexString($0.hashCode()) + " on thread " + Thread.currentThread().getName());
+Thread.dumpStack()
 ENDRULE
 
 RULE Creation of new protocol input buffer
