@@ -1,0 +1,54 @@
+# Try to figure out why JAXB is setting an element to nil when a value is
+# present
+
+RULE When is JAXBElement.setNil() called?
+CLASS javax.xml.bind.JAXBElement
+METHOD setNil
+IF true
+DO System.out.println("Setting nil on JAXBElement");
+Thread.dumpStack()
+ENDRULE
+
+RULE JAXBElement value set when nil=true
+CLASS javax.xml.bind.JAXBElement
+METHOD setValue
+IF $this.nil == true
+DO System.out.println("SETTING VALUE WHEN NIL");
+Thread.dumpStack()
+ENDRULE
+
+RULE When does the JAXB State.nil get set?
+CLASS com.sun.xml.bind.v2.runtime.unmarshaller.XsiNilLoader$Single
+METHOD onNil
+IF true
+DO System.out.println("State going to nil!");
+Thread.dumpStack()
+ENDRULE
+
+RULE Print start of each element processing
+CLASS com.sun.xml.bind.v2.runtime.unmarshaller.UnmarshallingContext
+METHOD startElement
+IF true
+DO System.out.println("Starting element: {" + $1.uri + "}" + $1.local)
+ENDRULE
+
+RULE Print end of each element processing
+CLASS com.sun.xml.bind.v2.runtime.unmarshaller.UnmarshallingContext
+METHOD endElement
+IF true
+DO System.out.println("Ending element: {" + $1.uri + "}" + $1.local)
+ENDRULE
+
+RULE Print state pushes
+CLASS com.sun.xml.bind.v2.runtime.unmarshaller.UnmarshallingContext$State
+METHOD push
+IF true
+DO System.out.println("*push*")
+ENDRULE
+
+RULE Print state pops
+CLASS com.sun.xml.bind.v2.runtime.unmarshaller.UnmarshallingContext$State
+METHOD pop
+IF true
+DO System.out.println("*pop*")
+ENDRULE
