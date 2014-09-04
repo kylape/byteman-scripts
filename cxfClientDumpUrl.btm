@@ -1,0 +1,8 @@
+RULE Print URL just before opening socket
+CLASS org.apache.cxf.transport.http.HTTPConduit$WrappedOutputStream
+METHOD <init>
+IF true
+DO System.out.println("******* KABOOM *********");
+System.out.println($3.getURL().toString());
+ENDRULE
+
